@@ -103,7 +103,7 @@ class Player(Forms):
             fbuf.fill(0)
         self.lX = self.x
         super().draw()
-
+        return 0
 
 class Coins(Forms):
 
@@ -115,28 +115,27 @@ class Coins(Forms):
         self.lY = 0
         self.c = 0
 
-    def update(self, coinX, speed):
+    def update(self, coinX, speed, gPoint=False):
 
         super().draw()
-        if self.c == high:
+        if gPoint==True:
             self.x = coinX
-        if self.c <= high:
+            self.y = 0
+        elif self.y <= high:
             fbuf.pixel(self.lX,self.lY,0)
-            self.y = self.c
             super().draw()
             time.sleep_ms(speed)
             self.lX = self.x
             self.lY = self.y
-            self.c += 1
-        else:
-            self.c = 0
+            self.y += 1
+        return 0
 
 
 # ----------------------------------------------------------------- #
 
 print("|*******************************************************|")
 print("|                                                       |")
-print("|  Welcome to Picking Up Coins to Have Lunch at Bandejão!  |")
+print("| Welcome to Picking Up Coins to Have Lunch at Bandejão |")
 print("|                                                       |")
 print("|*******************************************************|")
 
@@ -153,6 +152,7 @@ coinX = a.value(width)
 p = Player(posPlayerX, posPlayerY, playerWidth, playerHigh)
 c = Coins(coinX, 0, 1, 1)
 score = 0
+i = True
 try:
     while True:
 
@@ -160,12 +160,17 @@ try:
         p.update(posPlayerX)
 
         coinX = a.value(width)
-        c.update(coinX, 0)
-        if (c.y == p.y and c.x == p.x) or (c.y == p.y+1 and c.x == p.x+1):
+        if (c.y == p.y and c.x == p.x) or (c.y == p.y and c.x == p.x+1):
+            c.update(coinX, 50, True)
             score += 10
             print("Your score: "+str(score))
-
+        elif c.y==high:
+            fbuf.fill(0)
+            fbuf.text('GAME', 15, 5)
+            fbuf.text('OVER', 15, 17)
+            i2c.writeto(8, fbuf)
+            break
+        else:
+            c.update(coinX, 50)
 except KeyboardInterrupt: # when Ctrl+c
     print("The game was closed by the user.")
-
-        
