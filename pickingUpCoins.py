@@ -152,13 +152,11 @@ coinX = a.value(width)
 p = Player(posPlayerX, posPlayerY, playerWidth, playerHigh)
 c = Coins(coinX, 0, 1, 1)
 score = 0
-i = True
 try:
     while True:
 
         posPlayerX = int(adc.read()*(width-playerWidth)/255)
         p.update(posPlayerX)
-
         coinX = a.value(width)
         if (c.y == p.y and c.x == p.x) or (c.y == p.y and c.x == p.x+1):
             c.update(coinX, 50, True)
