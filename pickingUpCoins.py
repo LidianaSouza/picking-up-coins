@@ -115,7 +115,7 @@ class Coins(Forms):
         self.lY = 0
         self.c = 0
 
-    def update(self, coinX, speed, gPoint=False):
+    def update(self, coinX, ,,,, gPoint=False):
 
         super().draw()
         if gPoint==True:
@@ -152,17 +152,19 @@ coinX = a.value(width)
 p = Player(posPlayerX, posPlayerY, playerWidth, playerHigh)
 c = Coins(coinX, 0, 1, 1)
 score = 0
+i = True
 try:
     while True:
 
         posPlayerX = int(adc.read()*(width-playerWidth)/255)
         p.update(posPlayerX)
+
         coinX = a.value(width)
         if (c.y == p.y and c.x == p.x) or (c.y == p.y and c.x == p.x+1):
-            c.update(coinX, 50, True)
             score += 10
+            c.update(coinX, 50, True)
             print("Your score: "+str(score))
-        elif c.y==high:
+        elif c.y == high:
             fbuf.fill(0)
             fbuf.text('GAME', 15, 5)
             fbuf.text('OVER', 15, 17)
