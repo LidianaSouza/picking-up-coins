@@ -115,7 +115,7 @@ class Coins(Forms):
         self.lY = 0
         self.c = 0
 
-    def update(self, coinX, ,,,, gPoint=False):
+    def update(self, coinX, speed=50, gPoint=False):
 
         super().draw()
         if gPoint==True:
@@ -171,6 +171,6 @@ try:
             i2c.writeto(8, fbuf)
             break
         else:
-            c.update(coinX, 50)
+            c.update(coinX)
 except KeyboardInterrupt: # when Ctrl+c
     print("The game was closed by the user.")
